@@ -60,7 +60,7 @@ const Home = props => {
 		const resData = await response.json();
 		//Outputing unique key from Firebase
 		console.log(resData);
-		//history.push('/vote');
+		history.push('/vote');
 	};
 	return (
 		<div className='Home'>
