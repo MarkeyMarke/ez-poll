@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { NavLink, Link, useHistory } from 'react-router-dom';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Home.css';
 
 export const databaseURL = `https://ez-poll.firebaseio.com/qna.json`;
@@ -88,13 +89,19 @@ const Home = props => {
 									value={inputField.answer1}
 								/>
 								{index + 1 !== answers.length ? (
-									<button className='buttonPlusHidden' type='button' onClick={handleAddFields}>
-										+
-									</button>
+									<FontAwesomeIcon
+										icon={faPlusSquare}
+										className='buttonPlusHidden'
+										type='button'
+										onClick={handleAddFields}
+									/>
 								) : (
-									<button className='buttonPlus' type='button' onClick={handleAddFields}>
-										+
-									</button>
+									<FontAwesomeIcon
+										icon={faPlusSquare}
+										className='buttonPlus'
+										type='button'
+										onClick={handleAddFields}
+									/>
 								)}
 							</div>
 						</Fragment>
