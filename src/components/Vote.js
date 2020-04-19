@@ -1,10 +1,12 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import "../styles/Vote.css";
-import { databaseURL } from "../components/Home";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useAlert } from "react-alert";
 
 const Vote = () => {
   const history = useHistory();
+  const alert = useAlert();
   const [question, setQuestion] = useState(null);
   const [answers, setAnswers] = useState(null);
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(0);
@@ -22,7 +24,8 @@ const Vote = () => {
     if (uniqueID) {
       setUniqueID(uniqueID);
     } else {
-      return; //TODO: Go to error page
+      history.push("/error");
+      return;
     }
 
     //Fetch from Firebase
@@ -33,6 +36,9 @@ const Vote = () => {
     if (resUserData) {
       setQuestion(resUserData.question);
       setAnswers(resUserData.answers);
+    } else {
+      history.push("/error");
+      return;
     }
   };
 
@@ -42,9 +48,13 @@ const Vote = () => {
     const mostRecentAnswers = await fetch(
       `https://ez-poll.firebaseio.com/qna/${uniqueID}.json`
     );
+    if (!mostRecentAnswers.ok) {
+      history.push("/error");
+      return;
+    }
     const recentAnswerJSON = await mostRecentAnswers.json();
     if (recentAnswerJSON == null) {
-      console.log("No answers!");
+      history.push("/error");
       return;
     }
     //Increment vote count locally
@@ -68,12 +78,11 @@ const Vote = () => {
         }),
       }
     );
-    const resData = await response.json();
-  };
-
-  const onShareButton = async (e) => {
-    e.preventDefault();
-    history.push("/");
+    if (!response.ok) {
+      history.push("/error");
+      return;
+    }
+    history.push(`/results?uid=${uniqueID}`);
   };
 
   const onNewPollButton = async (e) => {
@@ -116,9 +125,14 @@ const Vote = () => {
       <button type="submit" className="buttonPoll" onClick={onSubmitButton}>
         Submit
       </button>
-      <button type="submit" className="buttonPoll" onClick={onShareButton}>
-        Share
-      </button>
+      <CopyToClipboard
+        text={window.location.href}
+        onCopy={() => alert.show("Share URL Copied to clipboard")}
+      >
+        <button type="submit" className="buttonPoll">
+          Share
+        </button>
+      </CopyToClipboard>
       <button type="submit" className="buttonPoll" onClick={onNewPollButton}>
         New Poll
       </button>

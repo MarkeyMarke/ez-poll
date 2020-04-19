@@ -1,100 +1,100 @@
 .Home {
-	text-align: center;
-	margin: 185px auto;
-	width: 32%;
+  text-align: center;
+  margin: 10% auto;
+  width: 32%;
 }
 .textLogo {
-	color: #b2e5ff;
-	font-size: 50px;
-	font-family: STHupo;
-	margin-bottom: 10px;
+  color: #b2e5ff;
+  font-size: 50px;
+  font-family: STHupo;
+  margin-bottom: 10px;
 }
 .form {
-	border: 1px solid;
-	padding: 10px;
-	box-sizing: border-box;
-	background-color: #2c394d;
-	border-color: #b2e5ff;
+  border: 1px solid;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #2c394d;
+  border-color: #b2e5ff;
 }
 .inputQuestion {
-	width: 100%;
-	padding: 10px;
-	box-sizing: border-box;
-	margin-top: 6px;
-	margin-bottom: 10px;
-	background-color: #2c394d;
-	font-family: STXihei;
-	color: #b2e5ff;
-	border-top-style: hidden;
-	border-right-style: hidden;
-	border-left-style: hidden;
-	border-bottom-style: hidden;
-	font-size: 25px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  background-color: #2c394d;
+  font-family: STXihei;
+  color: #b2e5ff;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  font-size: 25px;
 }
 ::placeholder {
-	color: #b2e5ff;
-	font-family: STXihei;
-	font-size: 25px;
+  color: #b2e5ff;
+  font-family: STXihei;
+  font-size: 25px;
 }
 .inputAnswer {
-	width: 96%;
-	padding: 10px;
-	box-sizing: border-box;
-	margin-right: 10px;
-	margin-top: 8px;
-	background-color: #2c394d;
-	font-family: STXihei;
-	color: #b2e5ff;
-	border-top-style: hidden;
-	border-right-style: hidden;
-	border-left-style: hidden;
-	border-bottom-style: hidden;
-	font-size: 25px;
+  width: 96%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-right: 10px;
+  margin-top: 8px;
+  background-color: #2c394d;
+  font-family: STXihei;
+  color: #b2e5ff;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  font-size: 25px;
 }
 .inputAnswer1 {
-	width: 90%;
-	padding: 10px;
-	box-sizing: border-box;
-	margin-right: 10px;
-	margin-top: 8px;
-	background-color: #2c394d;
-	font-family: STXihei;
-	color: #b2e5ff;
-	border-top-style: hidden;
-	border-right-style: hidden;
-	border-left-style: hidden;
-	border-bottom-style: hidden;
-	font-size: 25px;
+  width: 90%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-right: 10px;
+  margin-top: 8px;
+  background-color: #2c394d;
+  font-family: STXihei;
+  color: #b2e5ff;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  font-size: 25px;
 }
 .buttonPlus {
-	width: 6%;
-	height: 5%;
-	background-color: #b2e5ff;
-	border-radius: 5px;
-	text-align: center;
+  width: 6%;
+  height: 5%;
+  background-color: #b2e5ff;
+  border-radius: 5px;
+  text-align: center;
 }
 .buttonPlusHidden {
-	width: 6%;
-	height: 5%;
-	background-color: #b2e5ff;
-	border-radius: 5px;
-	text-align: center;
-	visibility: hidden;
+  width: 6%;
+  height: 5%;
+  background-color: #b2e5ff;
+  border-radius: 5px;
+  text-align: center;
+  visibility: hidden;
 }
 .buttonPoll {
-	background-color: #b2e5ff;
-	color: #2c394d;
-	padding: 20px;
-	text-align: center;
-	font-size: 16px;
-	border-radius: 35px;
-	cursor: pointer;
-	margin-top: 20px;
-	padding-left: 50px;
-	padding-right: 50px;
-	text-decoration: 'none';
+  background-color: #b2e5ff;
+  color: #2c394d;
+  padding: 20px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 35px;
+  cursor: pointer;
+  margin-top: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  text-decoration: "none";
 }
 .removeUnderline {
-	color: 'inherit';
-	text-decoration: 'underline';
+  color: "inherit";
+  text-decoration: "underline";
 }

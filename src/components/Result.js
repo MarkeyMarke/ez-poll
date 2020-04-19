@@ -1,12 +1,15 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { NavLink, Link, useHistory, useLocation } from "react-router-dom";
 import "../styles/Result.css";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useAlert } from "react-alert";
 
 const Result = () => {
   const history = useHistory();
+  const alert = useAlert();
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([]);
-  const [errorPage, setErrorPage] = useState(false);
+  const [uniqueID, setUniqueID] = useState(null);
 
   //Handling the set value for percentage
   const handleInputChange = (numberVotes) => {
@@ -28,15 +31,29 @@ const Result = () => {
 
   //Calling the database
   const getData = async () => {
+    //Check browser link first
     let uniqueID = query.get("uid");
-    const getUser = await fetch(
+    if (uniqueID) {
+      setUniqueID(uniqueID);
+    } else {
+      history.push("/error");
+      return;
+    }
+
+    const poll = await fetch(
       `https://ez-poll.firebaseio.com/qna/${uniqueID}.json`
     );
-    const resUserData = await getUser.json();
-    if (resUserData == null) setErrorPage(true);
-    else {
-      setQuestion(resUserData.question);
-      setAnswers(resUserData.answers);
+    if (!poll.ok) {
+      history.push("/error");
+      return;
+    }
+    const pollJSON = await poll.json();
+    if (pollJSON == null) {
+      history.push("/error");
+      return;
+    } else {
+      setQuestion(pollJSON.question);
+      setAnswers(pollJSON.answers);
     }
   };
 
@@ -56,15 +73,15 @@ const Result = () => {
     history.push("/");
   };
 
-  return errorPage != true ? (
+  return (
     <div className="Result">
       <h1 className="textLogo">EZ Poll</h1>
       <form className="form">
         <div>
-          <input className="inputQuestion" value={question} readOnly />
+          <div className="inputQuestion">{question}</div>
           {answers.map((inputField, index) => (
             <Fragment key={index}>
-              <div className="">
+              <div className="resultsAnswer">
                 <div className="row">
                   <div className="column">
                     <label className="inputAnswerQuestion">
@@ -96,7 +113,7 @@ const Result = () => {
                             handleInputChange(inputField.answerCount) + "%",
                         }}
                       >
-                        40%
+                        N/A
                       </div>
                     )}
                   </div>
@@ -111,17 +128,17 @@ const Result = () => {
           ))}
         </div>
       </form>
-      <button type="submit" className="buttonPoll" onClick={sharePoll}>
-        Share Poll
-      </button>
+      <CopyToClipboard
+        text={`${window.location.host}/vote?uid=${uniqueID}`}
+        onCopy={() => alert.show("Share URL Copied to clipboard")}
+      >
+        <button type="submit" className="buttonPoll">
+          Share
+        </button>
+      </CopyToClipboard>
       <button type="submit" className="buttonPoll" onClick={newPoll}>
         New Poll
       </button>
-    </div>
-  ) : (
-    <div className="Result">
-      <h1 className="textLogo">Error</h1>
-      <h1 className="errorText"> Path does not exist!!</h1>
     </div>
   );
 };

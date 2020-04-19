@@ -12,6 +12,7 @@ const Home = (props) => {
   const [isEnabledAnswer, setIsEnabledAnswer] = useState(false);
   const [isEnabledTwoAnswers, setIsEnabledTwoAnswers] = useState(false);
   const history = useHistory();
+
   //Handling the set value for question
   const questionHandler = (event) => {
     if (event.target.value === "") setIsEnabledQuestion(false);
@@ -20,6 +21,7 @@ const Home = (props) => {
       setQuestion(event.target.value);
     }
   };
+
   //Handling the set value for answer
   const handleInputChange = (index, event) => {
     if (event.target.value === "") setIsEnabledAnswer(false);
@@ -30,6 +32,7 @@ const Home = (props) => {
       setAnswers(values);
     }
   };
+
   //Handling the add button
   const handleAddFields = (e) => {
     e.preventDefault();
@@ -39,13 +42,14 @@ const Home = (props) => {
     values.push({ answer: "", answerCount: 0 });
     setAnswers(values);
   };
+
   //Handling the submit button
   const submitPoll = async (e) => {
     e.preventDefault();
     const values = [...answers];
     values.pop();
-    //Outputing question and answers, Delete later
-    console.log(question, values);
+
+    //Insert to Firebase
     const response = await fetch(databaseURL, {
       method: "POST",
       headers: {
@@ -56,10 +60,14 @@ const Home = (props) => {
         answers: values,
       }),
     });
+    if (!response.ok) {
+      history.push("/error");
+      return;
+    }
+
     const resData = await response.json();
     //Outputing unique key from Firebase
-    console.log(resData);
-    history.push("/vote");
+    history.push(`/vote?uid=${resData.name}`);
   };
   return (
     <div className="Home">
