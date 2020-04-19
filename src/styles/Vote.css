@@ -1,14 +1,67 @@
 .Vote {
-	text-align: center;
+  text-align: center;
 }
-.button {
-	background-color: rgb(55, 114, 182);
-	color: white;
-	padding: 20px;
-	text-align: center;
-	display: inline-block;
-	font-size: 16px;
-	border-radius: 12px;
-	cursor: pointer;
-	text-decoration: none;
+.votePageButtons {
+  background-color: #b2e5ff;
+  color: #2c394d;
+  padding: 20px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 35px;
+  cursor: pointer;
+  margin-top: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  text-decoration: "none";
+  margin-right: 10px;
+}
+.votePageLogo {
+  color: #b2e5ff;
+  font-size: 50px;
+  font-family: STHupo;
+  margin-bottom: 10px;
+}
+.votePageBoxContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.votePageBox {
+  border: 1px solid;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #2c394d;
+  border-color: #b2e5ff;
+  width: 50%;
+}
+.votePageQuestionText {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: -5px;
+  background-color: #2c394d;
+  font-family: STXihei;
+  color: #b2e5ff;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  font-size: 25px;
+  text-align: left;
+}
+.votePageAnswersText {
+  font-family: STXihei;
+  color: #b2e5ff;
+  font-size: 25px;
+  padding-left: 30px;
+}
+.votePageAnswersContainer {
+  width: 50%;
+  text-align: left;
+}
+.radio {
+  padding-top: 10px;
 }
