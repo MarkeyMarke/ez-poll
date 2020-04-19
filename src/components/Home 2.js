@@ -1,7 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { NavLink, Link, useHistory } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+
 import '../styles/Home.css';
 
 export const databaseURL = `https://ez-poll.firebaseio.com/qna.json`;
@@ -12,26 +11,20 @@ const Home = props => {
 	const [ isEnabledQuestion, setIsEnabledQuestion ] = useState(false);
 	const [ isEnabledAnswer, setIsEnabledAnswer ] = useState(false);
 	const [ isEnabledTwoAnswers, setIsEnabledTwoAnswers ] = useState(false);
-	const [ isEnabledPlusButton, setIsEnabledPlusButton ] = useState(false);
 	const history = useHistory();
 	//Handling the set value for question
 	const questionHandler = event => {
-		if (event.target.value === '') {
-			setIsEnabledQuestion(false);
-			setIsEnabledPlusButton(false);
-		} else {
+		if (event.target.value === '') setIsEnabledQuestion(false);
+		else {
 			setIsEnabledQuestion(true);
 			setQuestion(event.target.value);
 		}
 	};
 	//Handling the set value for answer
 	const handleInputChange = (index, event) => {
-		if (event.target.value === '') {
-			setIsEnabledAnswer(false);
-			setIsEnabledPlusButton(false);
-		} else {
+		if (event.target.value === '') setIsEnabledAnswer(false);
+		else {
 			setIsEnabledAnswer(true);
-			setIsEnabledPlusButton(true);
 			const values = [ ...answers ];
 			values[index].answerID = index;
 			values[index].answer = event.target.value;
@@ -45,7 +38,6 @@ const Home = props => {
 		if (values.length < 2) setIsEnabledTwoAnswers(false);
 		else setIsEnabledTwoAnswers(true);
 		values.push({ answer: '', answerID: null, answerCount: 0 });
-		setIsEnabledPlusButton(false);
 		setAnswers(values);
 	};
 	//Handling the submit button
@@ -96,25 +88,13 @@ const Home = props => {
 									value={inputField.answer1}
 								/>
 								{index + 1 !== answers.length ? (
-									<FontAwesomeIcon
-										icon={faPlusSquare}
-										className='buttonPlusHidden'
-										type='button'
-										onClick={handleAddFields}
-									/>
-								) : !isEnabledPlusButton ? (
-									<FontAwesomeIcon
-										icon={faPlusSquare}
-										className='buttonPlus fa-disabled'
-										type='button'
-									/>
+									<button className='buttonPlusHidden' type='button' onClick={handleAddFields}>
+										+
+									</button>
 								) : (
-									<FontAwesomeIcon
-										icon={faPlusSquare}
-										className='buttonPlus'
-										type='button'
-										onClick={handleAddFields}
-									/>
+									<button className='buttonPlus' type='button' onClick={handleAddFields}>
+										+
+									</button>
 								)}
 							</div>
 						</Fragment>
