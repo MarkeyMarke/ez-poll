@@ -101,6 +101,7 @@ const Vote = () => {
                     value={answer.answer}
                     checked={index === selectedAnswerIndex}
                     className="radioCircle"
+                    name="poll"
                     onChange={() => setSelectedAnswerIndex(index)}
                   />
                   {answer.answer}
