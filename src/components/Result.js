@@ -134,7 +134,7 @@ const Result = () => {
                             handleInputChange(inputField.answerCount) + "%",
                         }}
                       >
-                        .
+                        |
                       </div>
                     )}
                   </div>
