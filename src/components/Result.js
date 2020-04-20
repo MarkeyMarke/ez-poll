@@ -3,6 +3,8 @@ import { NavLink, Link, useHistory, useLocation } from "react-router-dom";
 import "../styles/Result.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useAlert } from "react-alert";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 
 const Result = () => {
   const history = useHistory();
@@ -31,9 +33,11 @@ const Result = () => {
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
   };
-
-  //Calling the function
   let query = useQuery();
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   //Calling the database
   const getData = async () => {
@@ -84,15 +88,30 @@ const Result = () => {
     });
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
   //Handling the new button
   const newPoll = async (e) => {
     e.preventDefault();
     history.push("/");
   };
+
+  if (!answers || !question || !uniqueID) {
+    return (
+      <div className="Vote">
+        <h1 className="votePageLogo">EZ Poll</h1>
+        <div className="votePageBoxContainer">
+          <div className="votePageBox">
+            <label className="votePageLoadingText">Loading results...</label>
+            <div style={{ height: "10px" }}></div>
+            <Loader type="Oval" color="#b2e5ff" height={150} width={150} />
+            <div style={{ height: "10px" }}></div>
+          </div>
+        </div>
+        <button type="submit" className="buttonPoll" onClick={newPoll}>
+          New Poll
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="Result">
