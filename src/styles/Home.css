@@ -67,16 +67,12 @@
   font-size: 25px;
 }
 .buttonPlus {
-  width: 6%;
-  height: 5%;
-  background-color: #b2e5ff;
   border-radius: 5px;
+  color: #b2e5ff;
   text-align: center;
 }
 .buttonPlusHidden {
-  width: 6%;
-  height: 5%;
-  background-color: #b2e5ff;
+  color: #b2e5ff;
   border-radius: 5px;
   text-align: center;
   visibility: hidden;
@@ -97,4 +93,8 @@
 .removeUnderline {
   color: "inherit";
   text-decoration: "underline";
+}
+.fa-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
