@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useRef } from "react";
 import { NavLink, Link, useHistory, useLocation } from "react-router-dom";
 import "../styles/Result.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -10,6 +10,12 @@ const Result = () => {
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([]);
   const [uniqueID, setUniqueID] = useState(null);
+  //We use useRef and _setAnswes to let EventListeners have access to the state
+  const answersRef = useRef(answers);
+  const _setAnswers = (data) => {
+    answersRef.current = data;
+    setAnswers(data);
+  };
 
   //Handling the set value for percentage
   const handleInputChange = (numberVotes) => {
@@ -40,6 +46,7 @@ const Result = () => {
       return;
     }
 
+    //Fetch from Firebase DB and initialize state
     const poll = await fetch(
       `https://ez-poll.firebaseio.com/qna/${uniqueID}.json`
     );
@@ -53,19 +60,33 @@ const Result = () => {
       return;
     } else {
       setQuestion(pollJSON.question);
-      setAnswers(pollJSON.answers);
+      _setAnswers(pollJSON.answers);
     }
+
+    //Create an event listener for updates to Firebase DB
+    let event = new EventSource(
+      `https://ez-poll.firebaseio.com/qna/${uniqueID}/answers.json`
+    );
+    event.addEventListener("put", (e) => {
+      //Firebase returns a path string and the updated data. On first loadup, we'll get a path "/" with all the data in the JSON tree
+      const eventJSON = JSON.parse(e.data);
+      const path = eventJSON.path.replace(/\D/g, "");
+      const newAnswerCount = eventJSON.data;
+
+      //This if statement prevents updating the data on loadup, so we only listen to actual individual updates only
+      if (path.length > 0 && answersRef.current.length > 0) {
+        const index = parseInt(path);
+        let newAnswers = [...answersRef.current];
+        let oldAnswer = newAnswers[index];
+        newAnswers[index] = { ...oldAnswer, answerCount: newAnswerCount };
+        _setAnswers(newAnswers);
+      }
+    });
   };
 
   useEffect(() => {
     getData();
   }, []);
-
-  //Handling the share button
-  const sharePoll = async (e) => {
-    e.preventDefault();
-    history.push("/");
-  };
 
   //Handling the new button
   const newPoll = async (e) => {
@@ -113,7 +134,7 @@ const Result = () => {
                             handleInputChange(inputField.answerCount) + "%",
                         }}
                       >
-                        N/A
+                        .
                       </div>
                     )}
                   </div>

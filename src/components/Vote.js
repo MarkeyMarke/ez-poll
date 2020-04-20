@@ -60,22 +60,17 @@ const Vote = () => {
     //Increment vote count locally
     const newAnswers = recentAnswerJSON.answers;
     const oldAnswer = newAnswers[selectedAnswerIndex];
-    newAnswers[selectedAnswerIndex] = {
-      ...oldAnswer,
-      answerCount: oldAnswer.answerCount + 1,
-    };
+    const oldAnswerCount = oldAnswer.answerCount;
+    const newAnswer = { ...oldAnswer, answerCount: oldAnswerCount + 1 };
     //Update value in Firebase Database
     const response = await fetch(
-      `https://ez-poll.firebaseio.com/qna/${uniqueID}.json`,
+      `https://ez-poll.firebaseio.com/qna/${uniqueID}/answers/${selectedAnswerIndex}.json`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          question,
-          answers: newAnswers,
-        }),
+        body: JSON.stringify(newAnswer),
       }
     );
     if (!response.ok) {
