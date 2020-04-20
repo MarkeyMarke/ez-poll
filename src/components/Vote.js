@@ -104,7 +104,7 @@ const Vote = () => {
                     name="poll"
                     onChange={() => setSelectedAnswerIndex(index)}
                   />
-                  {answer.answer}
+                  {" " + answer.answer}
                 </label>
               </div>
             </Fragment>
