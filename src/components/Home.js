@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from "react";
 import { NavLink, Link, useHistory } from "react-router-dom";
-
+import { useAlert } from "react-alert";
 import "../styles/Home.css";
 
 export const databaseURL = `https://ez-poll.firebaseio.com/qna.json`;
@@ -11,15 +11,17 @@ const Home = (props) => {
   const [isEnabledQuestion, setIsEnabledQuestion] = useState(false);
   const [isEnabledAnswer, setIsEnabledAnswer] = useState(false);
   const [isEnabledTwoAnswers, setIsEnabledTwoAnswers] = useState(false);
+  const alert = useAlert();
   const history = useHistory();
 
   //Handling the set value for question
   const questionHandler = (event) => {
-    if (event.target.value === "") setIsEnabledQuestion(false);
-    else {
+    if (event.target.value === "") {
+      setIsEnabledQuestion(false);
+    } else {
       setIsEnabledQuestion(true);
-      setQuestion(event.target.value);
     }
+    setQuestion(event.target.value);
   };
 
   //Handling the set value for answer
@@ -46,6 +48,16 @@ const Home = (props) => {
   //Handling the submit button
   const submitPoll = async (e) => {
     e.preventDefault();
+    if (!isEnabledQuestion) {
+      alert.show("Please fill in the question!");
+      return;
+    } else if (!isEnabledAnswer) {
+      alert.show("Please fill in your answers!");
+      return;
+    } else if (!isEnabledTwoAnswers) {
+      alert.show("Please fill in at least two answers!");
+      return;
+    }
     const values = [...answers];
     values.pop();
 
@@ -116,14 +128,7 @@ const Home = (props) => {
           ))}
         </div>
       </form>
-      <button
-        type="submit"
-        className="buttonPoll"
-        disabled={
-          !isEnabledQuestion || !isEnabledAnswer || !isEnabledTwoAnswers
-        }
-        onClick={submitPoll}
-      >
+      <button type="submit" className="buttonPoll" onClick={submitPoll}>
         Create Poll
       </button>
     </div>

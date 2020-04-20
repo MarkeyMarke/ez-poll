@@ -18,7 +18,7 @@ const options = {
   timeout: 5000,
   offset: "30px",
   transition: transitions.FADE,
-  type: types.SUCCESS,
+  type: types.INFO,
 };
 
 const Root = () => (
