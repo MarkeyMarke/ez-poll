@@ -76,7 +76,7 @@ const Result = () => {
       const eventJSON = JSON.parse(e.data);
       const path = eventJSON.path.replace(/\D/g, "");
       const newAnswerCount = eventJSON.data;
-
+      console.log("New Answer Count", newAnswerCount);
       //This if statement prevents updating the data on loadup, so we only listen to actual individual updates only
       if (path.length > 0 && answersRef.current.length > 0) {
         const index = parseInt(path);

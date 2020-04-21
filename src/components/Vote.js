@@ -66,13 +66,13 @@ const Vote = () => {
     const newAnswer = { ...oldAnswer, answerCount: oldAnswerCount + 1 };
     //Update value in Firebase Database
     const response = await fetch(
-      `https://ez-poll.firebaseio.com/qna/${uniqueID}/answers/${selectedAnswerIndex}.json`,
+      `https://ez-poll.firebaseio.com/qna/${uniqueID}/answers/${selectedAnswerIndex}/answerCount.json`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newAnswer),
+        body: oldAnswerCount + 1,
       }
     );
     if (!response.ok) {
