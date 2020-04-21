@@ -173,7 +173,7 @@ const Result = () => {
       </form>
       <CopyToClipboard
         text={
-          process.env.NODE_ENV
+          process.env.NODE_ENV === "development"
             ? `${window.location.host}/vote?uid=${uniqueID}`
             : `https://${window.location.host}/vote?uid=${uniqueID}`
         }
