@@ -77,7 +77,11 @@ const Result = () => {
       const path = eventJSON.path.replace(/\D/g, "");
       const newAnswerCount = eventJSON.data;
       //This if statement prevents updating the data on loadup, so we only listen to actual individual updates only
-      if (path.length > 0 && answersRef.current.length > 0) {
+      if (
+        path.length > 0 &&
+        answersRef.current.length > 0 &&
+        Number.isInteger(newAnswerCount)
+      ) {
         const index = parseInt(path);
         let newAnswers = [...answersRef.current];
         let oldAnswer = newAnswers[index];
@@ -168,7 +172,11 @@ const Result = () => {
         </div>
       </form>
       <CopyToClipboard
-        text={`https://${window.location.host}/vote?uid=${uniqueID}`}
+        text={
+          process.env.NODE_ENV
+            ? `${window.location.host}/vote?uid=${uniqueID}`
+            : `https://${window.location.host}/vote?uid=${uniqueID}`
+        }
         onCopy={() => alert.show("Share URL Copied to clipboard")}
       >
         <button type="submit" className="buttonPoll">
