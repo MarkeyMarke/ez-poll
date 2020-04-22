@@ -3,6 +3,8 @@ import { useHistory, useLocation } from "react-router-dom";
 import "../styles/Vote.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useAlert } from "react-alert";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 
 const Vote = () => {
   const history = useHistory();
@@ -29,13 +31,13 @@ const Vote = () => {
     }
 
     //Fetch from Firebase
-    const getUser = await fetch(
+    const answersResponse = await fetch(
       `https://ez-poll.firebaseio.com/qna/${uniqueID}.json`
     );
-    const resUserData = await getUser.json();
-    if (resUserData) {
-      setQuestion(resUserData.question);
-      setAnswers(resUserData.answers);
+    const answersResponseJSON = await answersResponse.json();
+    if (answersResponseJSON) {
+      setQuestion(answersResponseJSON.question);
+      setAnswers(answersResponseJSON.answers);
     } else {
       history.push("/error");
       return;
@@ -60,22 +62,16 @@ const Vote = () => {
     //Increment vote count locally
     const newAnswers = recentAnswerJSON.answers;
     const oldAnswer = newAnswers[selectedAnswerIndex];
-    newAnswers[selectedAnswerIndex] = {
-      ...oldAnswer,
-      answerCount: oldAnswer.answerCount + 1,
-    };
+    const oldAnswerCount = oldAnswer.answerCount;
     //Update value in Firebase Database
     const response = await fetch(
-      `https://ez-poll.firebaseio.com/qna/${uniqueID}.json`,
+      `https://ez-poll.firebaseio.com/qna/${uniqueID}/answers/${selectedAnswerIndex}/answerCount.json`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          question,
-          answers: newAnswers,
-        }),
+        body: oldAnswerCount + 1,
       }
     );
     if (!response.ok) {
@@ -90,7 +86,7 @@ const Vote = () => {
     history.push("/");
   };
 
-  const actualAnswers = () => {
+  const boxContent = () => {
     return (
       <div className="votePageBox">
         <div className="votePageQuestionText">{question}</div>
@@ -104,9 +100,10 @@ const Vote = () => {
                     value={answer.answer}
                     checked={index === selectedAnswerIndex}
                     className="radioCircle"
+                    name="poll"
                     onChange={() => setSelectedAnswerIndex(index)}
                   />
-                  {answer.answer}
+                  {" " + answer.answer}
                 </label>
               </div>
             </Fragment>
@@ -116,11 +113,30 @@ const Vote = () => {
     );
   };
 
+  if (!answers || !question || !uniqueID) {
+    return (
+      <div className="Vote">
+        <h1 className="votePageLogo">EZ Poll</h1>
+        <div className="votePageBoxContainer">
+          <div className="votePageBox">
+            <label className="votePageLoadingText">Loading poll...</label>
+            <div style={{ height: "10px" }}></div>
+            <Loader type="Oval" color="#b2e5ff" height={150} width={150} />
+            <div style={{ height: "10px" }}></div>
+          </div>
+        </div>
+        <button type="submit" className="buttonPoll" onClick={onNewPollButton}>
+          New Poll
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="Vote">
       <h1 className="votePageLogo">EZ Poll</h1>
       <div className="votePageBoxContainer">
-        {answers && question && actualAnswers()}
+        {answers && question && boxContent()}
       </div>
       <button type="submit" className="buttonPoll" onClick={onSubmitButton}>
         Submit

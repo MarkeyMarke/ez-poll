@@ -59,6 +59,11 @@
   font-size: 25px;
   padding-left: 10px;
 }
+.votePageLoadingText {
+  font-family: STXihei;
+  color: #b2e5ff;
+  font-size: 25px;
+}
 .votePageAnswersContainer {
   width: 50%;
   text-align: left;

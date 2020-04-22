@@ -14,9 +14,7 @@ const Error = () => {
       <h1 className="votePageLogo">EZ Poll</h1>
       <div className="votePageBoxContainer">
         <div className="votePageBox">
-          <label className="votePageAnswersText">
-            There was an error in the URL
-          </label>
+          <label className="votePageAnswersText">404 Page Not Found</label>
         </div>
       </div>
       <button type="submit" className="buttonPoll" onClick={onNewPollButton}>
