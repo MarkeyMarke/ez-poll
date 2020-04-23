@@ -13,6 +13,7 @@ const Home = props => {
 	const [ isEnabledQuestion, setIsEnabledQuestion ] = useState(false);
 	const [ isEnabledPlusButton, setIsEnabledPlusButton ] = useState(false);
 	const [ isEnabledTwoAnswers, setIsEnabledTwoAnswers ] = useState(false);
+	const [ isEnabledAnswer, setIsEnabledAnswer ] = useState(false);
 	const alert = useAlert();
 	const history = useHistory();
 
@@ -31,9 +32,11 @@ const Home = props => {
 	//Handling the set value for answer
 	const handleInputChange = (index, event) => {
 		event.preventDefault();
-		if (event.target.value === '') {
+		if (event.target.value === '' && !(index >= 2)) {
+			setIsEnabledAnswer(false);
 			setIsEnabledPlusButton(false);
 		} else {
+			setIsEnabledAnswer(true);
 			setIsEnabledPlusButton(true);
 		}
 		const values = [ ...answers ];
@@ -75,6 +78,9 @@ const Home = props => {
 			return;
 		} else if (!isEnabledTwoAnswers) {
 			alert.show('Please fill in at least two answers!');
+			return;
+		} else if (!isEnabledAnswer) {
+			alert.show('Please fill in the answer!');
 			return;
 		}
 		const values = [ ...answers ];
